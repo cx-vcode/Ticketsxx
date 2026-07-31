@@ -1,0 +1,51 @@
+project_id = "yoamlepdjzsjwppxhuov"
+
+[functions]
+  [functions.auth-email-hook]
+    verify_jwt = false
+  [functions.classify-ticket]
+    verify_jwt = false
+  [functions.customer-ai-chat]
+    verify_jwt = false
+  [functions.escalate-approvals]
+    verify_jwt = false
+  [functions.receive-external-ticket]
+    verify_jwt = false
+  [functions.send-email-notification]
+    verify_jwt = false
+  [functions.sla-alerts]
+    verify_jwt = false
+  [functions.suggest-service]
+    verify_jwt = false
+  [functions.suggest-solutions]
+    verify_jwt = false
+  [functions.ticket-ai-chat]
+    verify_jwt = false
+  [functions.weekly-developer-report]
+    verify_jwt = false
+  [functions.analyze-sentiment]
+    verify_jwt = false
+  [functions.summarize-ticket]
+    verify_jwt = false
+  [functions.dispatch-webhook]
+    verify_jwt = false
+  [functions.run-automation]
+    verify_jwt = false
+  [functions.suggest-reply]
+    verify_jwt = false
+  [functions.forecast-tickets]
+    verify_jwt = false
+  [functions.create-user]
+    verify_jwt = false
+  [functions.send-slack-notification]
+    verify_jwt = false
+  [functions.broadcast-email]
+    verify_jwt = false
+  [functions.send-whatsapp]
+    verify_jwt = false
+  [functions.receive-whatsapp]
+    verify_jwt = false
+  [functions.classera-webhook]
+    verify_jwt = false
+  [functions.sla-auto-escalate]
+    verify_jwt = false

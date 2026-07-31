@@ -1,0 +1,1 @@
+ALTER TABLE public.training_courses ADD COLUMN intro_video_url text;
