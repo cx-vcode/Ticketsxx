@@ -112,6 +112,7 @@ export function ApprovalKanban() {
       result = result.filter(a =>
         a.ticket?.title?.toLowerCase().includes(q) ||
         a.ticket?.code?.toLowerCase().includes(q) ||
+        a.ticket?.ticket_number?.toString().includes(q) ||
         a.approver?.full_name?.toLowerCase().includes(q)
       );
     }

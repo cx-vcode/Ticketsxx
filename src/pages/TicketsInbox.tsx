@@ -96,8 +96,13 @@ export default function TicketsInbox() {
   const isAgentOrAdmin = role === 'agent' || role === 'admin' || role === 'developer';
 
   const applyFilters = (list: typeof tickets) => {
+    const q = searchQuery.toLowerCase().trim();
     return list.filter((t) => {
-      const matchesSearch = !searchQuery || t.title.includes(searchQuery) || t.ticket_number.toString().includes(searchQuery) || t.code?.includes(searchQuery);
+      const matchesSearch = !q || 
+        t.title.toLowerCase().includes(q) || 
+        t.ticket_number.toString().includes(q) || 
+        (t.code && t.code.toLowerCase().includes(q)) ||
+        (t.description && t.description.toLowerCase().includes(q));
       const matchesStatus = statusFilter === 'all' || t.status === statusFilter;
       const matchesPriority = priorityFilter === 'all' || t.priority === priorityFilter;
       const matchesDateFrom = !dateFrom || !isBefore(new Date(t.created_at), startOfDay(dateFrom));
