@@ -1,8 +1,8 @@
 import { memo } from 'react';
 import { motion } from 'framer-motion';
 import { useNavigate } from 'react-router-dom';
-import { BarChart3, Users, Inbox, BookOpen, Plus, Zap } from 'lucide-react';
 import { useLanguage } from '@/i18n';
+import { GoogleIcon } from '@/components/common/GoogleIcon';
 
 const container = {
   hidden: { opacity: 0 },
@@ -19,11 +19,11 @@ export const DashboardQuickActions = memo(function DashboardQuickActions() {
   const { t, lang } = useLanguage();
 
   const actions = [
-    { label: t.dashboard.quickActions.reports, icon: BarChart3, path: '/admin/reports', gradient: 'from-primary/10 to-primary/5', iconBg: 'bg-primary/15', iconColor: 'text-primary' },
-    { label: t.dashboard.quickActions.users, icon: Users, path: '/admin/users', gradient: 'from-accent/10 to-accent/5', iconBg: 'bg-accent/15', iconColor: 'text-accent' },
-    { label: t.dashboard.quickActions.ticketInbox, icon: Inbox, path: '/tickets', gradient: 'from-success/10 to-success/5', iconBg: 'bg-success/15', iconColor: 'text-success' },
-    { label: t.dashboard.quickActions.knowledgeBase, icon: BookOpen, path: '/knowledge-base', gradient: 'from-info/10 to-info/5', iconBg: 'bg-info/15', iconColor: 'text-info' },
-    { label: t.dashboard.quickActions.newTicket, icon: Plus, path: '/tickets/new', gradient: 'from-warning/10 to-warning/5', iconBg: 'bg-warning/15', iconColor: 'text-warning' },
+    { label: t.dashboard.quickActions.reports, icon: 'insights', path: '/admin/reports', iconBg: 'bg-blue-500/10 text-blue-600 dark:text-blue-400' },
+    { label: t.dashboard.quickActions.users, icon: 'group', path: '/admin/users', iconBg: 'bg-purple-500/10 text-purple-600 dark:text-purple-400' },
+    { label: t.dashboard.quickActions.ticketInbox, icon: 'inbox', path: '/tickets', iconBg: 'bg-emerald-500/10 text-emerald-600 dark:text-emerald-400' },
+    { label: t.dashboard.quickActions.knowledgeBase, icon: 'menu_book', path: '/knowledge-base', iconBg: 'bg-sky-500/10 text-sky-600 dark:text-sky-400' },
+    { label: t.dashboard.quickActions.newTicket, icon: 'add_circle', path: '/tickets/new', iconBg: 'bg-amber-500/10 text-amber-600 dark:text-amber-400' },
   ];
 
   return (
@@ -33,8 +33,8 @@ export const DashboardQuickActions = memo(function DashboardQuickActions() {
       transition={{ delay: 0.3 }}
     >
       <div className="flex items-center gap-2 mb-3">
-        <Zap className="h-4 w-4 text-warning" />
-        <span className="text-sm font-bold text-foreground">{lang === 'ar' ? 'إجراءات سريعة' : 'Quick Actions'}</span>
+        <GoogleIcon name="bolt" size={20} className="text-amber-500" fill />
+        <span className="text-sm font-extrabold text-foreground tracking-tight">{lang === 'ar' ? 'إجراءات سريعة' : 'Quick Actions'}</span>
       </div>
       <motion.div
         className="grid grid-cols-2 sm:grid-cols-5 gap-3"
@@ -46,15 +46,15 @@ export const DashboardQuickActions = memo(function DashboardQuickActions() {
           <motion.button
             key={action.path}
             variants={item}
-            whileHover={{ y: -3, scale: 1.03 }}
-            whileTap={{ scale: 0.97 }}
+            whileHover={{ y: -3, scale: 1.02 }}
+            whileTap={{ scale: 0.98 }}
             onClick={() => navigate(action.path)}
-            className={`group flex flex-col items-center gap-2.5 p-4 rounded-2xl border border-border/40 bg-gradient-to-b ${action.gradient} hover:border-primary/20 hover:shadow-card-hover transition-all duration-300`}
+            className="group flex flex-col items-center gap-2.5 p-4 rounded-2xl border border-border/60 bg-card hover:border-primary/40 hover:shadow-md transition-all duration-300"
           >
-            <div className={`w-10 h-10 rounded-xl ${action.iconBg} flex items-center justify-center group-hover:scale-110 transition-transform duration-300`}>
-              <action.icon className={`h-5 w-5 ${action.iconColor}`} />
+            <div className={`w-11 h-11 rounded-2xl ${action.iconBg} flex items-center justify-center group-hover:scale-110 transition-transform duration-300`}>
+              <GoogleIcon name={action.icon} size={24} fill />
             </div>
-            <span className="text-xs font-semibold text-foreground">{action.label}</span>
+            <span className="text-xs font-bold text-foreground">{action.label}</span>
           </motion.button>
         ))}
       </motion.div>

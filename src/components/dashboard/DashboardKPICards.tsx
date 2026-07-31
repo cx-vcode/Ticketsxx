@@ -1,11 +1,8 @@
 import { memo } from 'react';
 import { motion } from 'framer-motion';
-import {
-  Inbox, Clock, CheckCircle2, Shield, Timer, BarChart3,
-  ArrowUpRight, ArrowDownRight,
-} from 'lucide-react';
 import { useLanguage } from '@/i18n';
 import { AnimatedNumber } from '@/components/common/AnimatedNumber';
+import { GoogleIcon } from '@/components/common/GoogleIcon';
 import { useMotionPrimitives } from '@/lib/motion';
 
 interface Props {
@@ -28,70 +25,76 @@ export const DashboardKPICards = memo(function DashboardKPICards({ stats, report
     {
       title: t.dashboard.unresolvedTickets,
       value: unresolvedCount,
-      icon: Inbox,
-      tone: 'destructive',
-      trend: unresolvedCount > 10 ? 'up' : 'down',
+      icon: 'confirmation_number',
+      iconColor: '#ea4335',
+      iconBg: 'bg-red-500/10 dark:bg-red-500/20 text-red-600 dark:text-red-400',
+      trend: unresolvedCount > 10 ? 'trending_up' : 'trending_down',
       trendLabel: unresolvedCount > 10 ? (lang === 'ar' ? 'يحتاج متابعة' : 'Needs attention') : (lang === 'ar' ? 'تحت السيطرة' : 'Under control'),
-      iconBg: 'bg-destructive/10 text-destructive',
-      ring: 'group-hover:ring-destructive/20',
+      trendColor: unresolvedCount > 10 ? 'text-red-500' : 'text-emerald-500',
+      badgeBorder: 'border-red-500/20',
     },
     {
       title: t.dashboard.pending,
       value: pendingCount,
-      icon: Clock,
-      tone: 'warning',
-      trend: pendingCount > 5 ? 'up' : 'down',
-      trendLabel: `${pendingCount} ${lang === 'ar' ? 'بانتظار' : 'waiting'}`,
-      iconBg: 'bg-warning/10 text-warning',
-      ring: 'group-hover:ring-warning/20',
+      icon: 'pending_actions',
+      iconColor: '#fbbc04',
+      iconBg: 'bg-amber-500/10 dark:bg-amber-500/20 text-amber-600 dark:text-amber-400',
+      trend: pendingCount > 5 ? 'trending_up' : 'trending_down',
+      trendLabel: `${pendingCount} ${lang === 'ar' ? 'بانتظار الإجراء' : 'pending'}`,
+      trendColor: 'text-amber-500',
+      badgeBorder: 'border-amber-500/20',
     },
     {
-      title: lang === 'ar' ? 'تم الحل' : 'Resolved',
+      title: lang === 'ar' ? 'التذاكر المحلولة' : 'Resolved Tickets',
       value: resolvedCount,
-      icon: CheckCircle2,
-      tone: 'success',
-      trend: 'down',
-      trendLabel: `${resolutionRate}% ${lang === 'ar' ? 'معدل الحل' : 'rate'}`,
-      iconBg: 'bg-success/10 text-success',
-      ring: 'group-hover:ring-success/20',
+      icon: 'check_circle',
+      iconColor: '#34a853',
+      iconBg: 'bg-emerald-500/10 dark:bg-emerald-500/20 text-emerald-600 dark:text-emerald-400',
+      trend: 'task_alt',
+      trendLabel: `${resolutionRate}% ${lang === 'ar' ? 'معدل النجاح' : 'success rate'}`,
+      trendColor: 'text-emerald-500',
+      badgeBorder: 'border-emerald-500/20',
     },
     {
       title: t.dashboard.slaCompliance,
       value: slaCompliance,
       suffix: '%',
-      icon: Shield,
-      tone: slaCompliance >= 80 ? 'success' : 'destructive',
-      trend: slaCompliance >= 80 ? 'down' : 'up',
-      trendLabel: slaCompliance >= 80 ? (lang === 'ar' ? 'ممتاز' : 'Excellent') : (lang === 'ar' ? 'يحتاج تحسين' : 'Needs improvement'),
-      iconBg: slaCompliance >= 80 ? 'bg-success/10 text-success' : 'bg-destructive/10 text-destructive',
-      ring: 'group-hover:ring-primary/20',
+      icon: 'verified_user',
+      iconColor: '#1a73e8',
+      iconBg: 'bg-blue-500/10 dark:bg-blue-500/20 text-blue-600 dark:text-blue-400',
+      trend: slaCompliance >= 80 ? 'thumb_up' : 'warning',
+      trendLabel: slaCompliance >= 80 ? (lang === 'ar' ? 'التزام ممتاز' : 'Excellent') : (lang === 'ar' ? 'يحتاج تحسين' : 'Needs attention'),
+      trendColor: slaCompliance >= 80 ? 'text-blue-500' : 'text-amber-500',
+      badgeBorder: 'border-blue-500/20',
     },
     {
       title: t.dashboard.avgFirstResponse,
       value: avgResp,
       suffix: 'h',
-      icon: Timer,
-      tone: 'info',
-      trend: avgResp <= 4 ? 'down' : 'up',
-      trendLabel: avgResp <= 4 ? (lang === 'ar' ? 'سريع' : 'Fast') : (lang === 'ar' ? 'بطيء' : 'Slow'),
-      iconBg: 'bg-info/10 text-info',
-      ring: 'group-hover:ring-info/20',
+      icon: 'avg_pace',
+      iconColor: '#a142f4',
+      iconBg: 'bg-purple-500/10 dark:bg-purple-500/20 text-purple-600 dark:text-purple-400',
+      trend: avgResp <= 4 ? 'bolt' : 'schedule',
+      trendLabel: avgResp <= 4 ? (lang === 'ar' ? 'استجابة سريعة' : 'Fast response') : (lang === 'ar' ? 'بطيء' : 'Slow'),
+      trendColor: 'text-purple-500',
+      badgeBorder: 'border-purple-500/20',
     },
     {
-      title: lang === 'ar' ? 'إجمالي التذاكر' : 'Total Tickets',
+      title: lang === 'ar' ? 'إجمالي الطلبات' : 'Total Requests',
       value: tickets.length,
-      icon: BarChart3,
-      tone: 'primary',
-      trend: 'neutral',
-      trendLabel: `${stats?.new ?? 0} ${lang === 'ar' ? 'جديدة' : 'new'}`,
-      iconBg: 'bg-primary/10 text-primary',
-      ring: 'group-hover:ring-primary/20',
+      icon: 'analytics',
+      iconColor: '#4285f4',
+      iconBg: 'bg-sky-500/10 dark:bg-sky-500/20 text-sky-600 dark:text-sky-400',
+      trend: 'insights',
+      trendLabel: `${stats?.new ?? 0} ${lang === 'ar' ? 'طلبات جديدة' : 'new requests'}`,
+      trendColor: 'text-sky-500',
+      badgeBorder: 'border-sky-500/20',
     },
-  ] as const;
+  ];
 
   return (
     <motion.div
-      className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-3"
+      className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-3.5"
       variants={m.gridContainer}
       initial="hidden"
       animate="visible"
@@ -100,37 +103,34 @@ export const DashboardKPICards = memo(function DashboardKPICards({ stats, report
         <motion.div
           key={kpi.title}
           variants={m.cardEnter}
-          whileHover={m.hoverLift}
-          className={`group relative rounded-2xl bg-card border border-border/60 p-4 cursor-default overflow-hidden ring-1 ring-transparent transition-all duration-300 hover:shadow-card-hover hover:border-primary/30 ${kpi.ring}`}
+          whileHover={{ y: -4, transition: { duration: 0.2 } }}
+          className="group relative rounded-2xl bg-card border border-border/70 p-4 shadow-sm hover:shadow-md transition-all duration-300 overflow-hidden"
         >
-          {/* Subtle gradient mesh on hover */}
-          <div className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-500 bg-gradient-to-br from-primary/[0.04] via-transparent to-accent/[0.03] pointer-events-none" />
+          {/* Subtle Google Material surface shimmer */}
+          <div className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-300 bg-gradient-to-br from-primary/[0.03] to-transparent pointer-events-none" />
 
-          <div className="relative">
+          <div className="relative z-10 flex flex-col justify-between h-full">
             <div className="flex items-center justify-between mb-3">
-              <div className={`w-10 h-10 rounded-xl flex items-center justify-center transition-transform duration-300 ease-spring group-hover:scale-110 group-hover:-rotate-3 ${kpi.iconBg}`}>
-                <kpi.icon className="h-[18px] w-[18px]" strokeWidth={2.2} />
+              <div className={`w-10 h-10 rounded-2xl flex items-center justify-center transition-transform duration-300 group-hover:scale-110 ${kpi.iconBg}`}>
+                <GoogleIcon name={kpi.icon} size={22} fill />
               </div>
-              {kpi.trend !== 'neutral' && (
-                <div className={`flex items-center gap-0.5 text-[10px] font-bold tracking-wide ${
-                  kpi.trend === 'up' ? 'text-destructive' : 'text-success'
-                }`}>
-                  {kpi.trend === 'up' ? <ArrowUpRight className="h-3 w-3" /> : <ArrowDownRight className="h-3 w-3" />}
-                </div>
-              )}
+              <div className={`flex items-center gap-1 text-[11px] font-semibold ${kpi.trendColor}`}>
+                <GoogleIcon name={kpi.trend} size={15} />
+              </div>
             </div>
 
-            <p className="text-2xl font-bold text-foreground mb-0.5 tracking-tight tabular-nums">
-              <AnimatedNumber value={typeof kpi.value === 'number' ? kpi.value : 0} suffix={(kpi as any).suffix || ''} />
-            </p>
+            <div>
+              <p className="text-2xl font-extrabold text-foreground mb-0.5 tracking-tight tabular-nums font-sans">
+                <AnimatedNumber value={typeof kpi.value === 'number' ? kpi.value : 0} suffix={(kpi as any).suffix || ''} />
+              </p>
+              <p className="text-[12px] text-muted-foreground font-medium line-clamp-1">{kpi.title}</p>
 
-            <p className="text-[11px] text-muted-foreground font-medium leading-tight">{kpi.title}</p>
-
-            <p className={`text-[10px] mt-1.5 font-medium ${
-              kpi.trend === 'up' ? 'text-destructive/80' : kpi.trend === 'down' ? 'text-success/80' : 'text-muted-foreground/70'
-            }`}>
-              {kpi.trendLabel}
-            </p>
+              <div className="mt-2 pt-2 border-t border-border/40 flex items-center justify-between">
+                <span className={`text-[10px] font-semibold tracking-wide ${kpi.trendColor}`}>
+                  {kpi.trendLabel}
+                </span>
+              </div>
+            </div>
           </div>
         </motion.div>
       ))}
